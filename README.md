@@ -1,6 +1,6 @@
 # Ore Private Server Dashboard
 
-Ein erweitertes Dashboard, das Daten aus einer Logdatei analysiert und in Echtzeit aktualisierte Statistiken und Diagramme für ein Ore-Mining-Netzwerk anzeigt.
+Ein erweitertes Dashboard, das Daten aus der Logdatei vom Ore Private Server analysiert und in Echtzeit aktualisierte Statistiken und Diagramme für das Ore-Mining anzeigt.
 
 ## Funktionen
 
@@ -28,6 +28,8 @@ Um das Dashboard auszuführen, müssen folgende Software und Bibliotheken instal
 2. **Repository klonen**:
 
    ```bash
-   git clone https://github.com/username/erweitertes-dashboard.git
-   cd erweitertes-dashboard
+   git clone https://github.com/Mistergrow/Ore-Server-Dashboard
+   cd Ore-Server-Dashboard
+   cargo run
 
+   Im Browser localhost:8080, dann kompletten Pfad zur Logdatei ([LAUFWERKSBUCHSTABE]:\ore-private-srv\target\release\logs\ore-ppl-srv.log.2024-09-18)eingeben und hochladen. Das Programm analysiert auch alte logfiles.
