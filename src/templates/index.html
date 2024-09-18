@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Erweitertes Dashboard{% endblock title %}
+
+{% block head %}
+<!-- Favicon Einstellungen -->
+<link rel="icon" type="image/x-icon" href="/static/icons/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/static/icons/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/static/icons/android-chrome-512x512.png">
+{% endblock head %}
+
+{% block content %}
+<h1 class="mt-5">Erweitertes Dashboard</h1>
+
+<!-- Formular zur Auswahl der Logdatei -->
+<form class="form-inline mt-3" method="post" action="/upload">
+    <div class="form-group mb-2">
+        <label for="log_file" class="sr-only">Pfad zur Logdatei</label>
+        <input type="text" class="form-control" id="log_file" name="log_file" placeholder="Pfad zur Logdatei eingeben">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2 ml-2">Logdatei laden</button>
+</form>
+
+{% if data %}
+<!-- Dashboard-Anzeige -->
+<h2 class="mt-5">Dashboard</h2>
+<div class="row mt-3">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Ore Balance</div>
+            <div class="card-body">
+                <h5 class="card-title" id="ore_balance">{{ data.ore_balance }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Miner (Anzahl Pubkeys)</div>
+            <div class="card-body">
+                <h5 class="card-title" id="miner_count">{{ data.miner_count }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Aktuelle Difficulty</div>
+            <div class="card-body">
+                <h5 class="card-title" id="difficulty">{{ data.difficulty }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-header">Total Rewards</div>
+            <div class="card-body">
+                <h5 class="card-title" id="total_rewards">{{ data.total_rewards }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">Erfolgreiche Einsendungen</div>
+            <div class="card-body">
+                <h5 class="card-title" id="successful_submissions">{{ data.successful_submissions }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-header">Ø Difficulty</div>
+            <div class="card-body">
+                <h5 class="card-title" id="avg_difficulty">{{ data.avg_difficulty | float(digits=2) }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-header">Min Difficulty</div>
+            <div class="card-body">
+                <h5 class="card-title" id="min_difficulty">{{ data.min_difficulty }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-header">Max Difficulty</div>
+            <div class="card-body">
+                <h5 class="card-title" id="max_difficulty">{{ data.max_difficulty }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Diagramm für Verdienstrate -->
+<h2 class="mt-5">Verdienstrate über die Zeit</h2>
+<canvas id="rewardsChart" width="800" height="400"></canvas>
+
+<!-- Top 5 Miner -->
+<h2 class="mt-5">Top 5 Miner</h2>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Pubkey</th>
+            <th>Anzahl der Einsendungen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data.top_pubkeys %}
+        <tr>
+            <td>{{ item.0 }}</td>
+            <td>{{ item.1 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="row mt-3">
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">Ø Zeit zw. Erfolgen (Sek.)</div>
+            <div class="card-body">
+                <h5 class="card-title" id="avg_time_between_success">{{ data.avg_time_between_success | float(digits=2) }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Anzahl der Fehler</div>
+            <div class="card-body">
+                <h5 class="card-title" id="error_count">{{ data.error_count }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Fehlgeschlagene Einsendungen</div>
+            <div class="card-body">
+                <h5 class="card-title" id="failed_submissions">{{ data.failed_submissions }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+
+<script>
+	// Funktion zur periodischen Aktualisierung
+	setInterval(function(){
+		fetch('/update')
+		.then(response => response.json())
+		.then(data => {
+			if (data) {
+				console.log('Daten erhalten:', data);  // Debug-Ausgabe
+				// Hier die Daten im DOM aktualisieren
+				document.querySelector('#ore_balance').innerText = data.ore_balance || '0';
+				document.querySelector('#miner_count').innerText = data.miner_count || '0';
+				document.querySelector('#difficulty').innerText = data.difficulty || '0';
+				document.querySelector('#total_rewards').innerText = data.total_rewards || '0';
+				document.querySelector('#successful_submissions').innerText = data.successful_submissions || '0';
+				document.querySelector('#avg_difficulty').innerText = data.avg_difficulty?.toFixed(2) || '0.00';
+				document.querySelector('#min_difficulty').innerText = data.min_difficulty || '0';
+				document.querySelector('#max_difficulty').innerText = data.max_difficulty || '0';
+				document.querySelector('#avg_time_between_success').innerText = data.avg_time_between_success?.toFixed(2) || '0.00';
+				document.querySelector('#error_count').innerText = data.error_count || '0';
+				document.querySelector('#failed_submissions').innerText = data.failed_submissions || '0';
+
+				// Diagramm aktualisieren, falls Daten vorhanden sind
+				if (data.rewards_over_time && data.rewards_over_time.length > 0) {
+					updateChart(data);
+				} else {
+					console.log('Keine Verdienstdaten vorhanden.');
+				}
+			} else {
+				console.error('Keine Daten vom Server erhalten.');
+			}
+		})
+		.catch(error => {
+			console.error('Error fetching data:', error);
+		});
+	}, 30000); // Alle 30 Sekunden
+
+	// Diagramm initialisieren
+	const ctx = document.getElementById('rewardsChart').getContext('2d');
+	let rewardsChart = null;
+
+	function createChart(chartData) {
+		const labels = chartData.rewards_over_time.map(item => {
+			// Nur den relevanten Teil des Zeitstempels verwenden (ohne Mikrosekunden)
+			return item[0].split('.')[0];  // Mikrosekunden entfernen
+		});
+		const rewards = chartData.rewards_over_time.map(item => item[1]);
+
+		rewardsChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: [{
+					label: 'Verdiente ORE',
+					data: rewards,
+					backgroundColor: 'rgba(75, 192, 192, 0.2)',
+					borderColor: 'rgba(75, 192, 192, 1)',
+					borderWidth: 1,
+					fill: false,
+				}]
+			},
+			options: {
+				scales: {
+					x: {
+						type: 'time',
+						time: {
+							parser: 'yyyy-MM-dd\'T\'HH:mm:ss',  // Mikrosekunden ignorieren
+							unit: 'minute',
+							displayFormats: {
+								minute: 'HH:mm:ss'
+							}
+						},
+						title: {
+							display: true,
+							text: 'Zeit'
+						}
+					},
+					y: {
+						beginAtZero: true,
+						title: {
+							display: true,
+							text: 'ORE'
+						}
+					}
+				}
+			}
+		});
+	}
+	
+function updateChart(chartData) {
+    if (rewardsChart) {
+        rewardsChart.destroy();  // Altes Diagramm zerstören
+    }
+    createChart(chartData);  // Neues Diagramm erstellen
+}
+
+    function updateChart(chartData) {
+        if (rewardsChart) {
+            rewardsChart.destroy();  // Altes Diagramm zerstören
+        }
+        createChart(chartData);  // Neues Diagramm erstellen
+    }
+
+    // Diagramm nur nach Erhalt der Daten erstellen
+    fetch('/update')
+    .then(response => response.json())
+    .then(data => {
+        if (data.rewards_over_time && data.rewards_over_time.length > 0) {
+            createChart(data);  // Diagramm erstellen
+        } else {
+            console.log('Keine Verdienstdaten vorhanden.');
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+</script>
+{% endblock scripts %}
