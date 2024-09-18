@@ -1,4 +1,4 @@
-# Erweitertes Dashboard
+# Ore Private Server Dashboard
 
 Ein erweitertes Dashboard, das Daten aus einer Logdatei analysiert und in Echtzeit aktualisierte Statistiken und Diagramme für ein Ore-Mining-Netzwerk anzeigt.
 
