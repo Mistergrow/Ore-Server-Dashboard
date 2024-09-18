@@ -1,3 +1,4 @@
+#Ore Private Server Dashboard
 [Deutsch](README.de.md) | [English](README.md)
 
 Ein erweitertes Dashboard, das Daten aus der Logdatei vom Ore Private Server analysiert und in Echtzeit aktualisierte Statistiken und Diagramme für das Ore-Mining anzeigt.
