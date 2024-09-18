@@ -1,35 +1,36 @@
 # Ore Private Server Dashboard
 
-Ein erweitertes Dashboard, das Daten aus der Logdatei vom Ore Private Server analysiert und in Echtzeit aktualisierte Statistiken und Diagramme für das Ore-Mining anzeigt.
+[Deutsch](README.de.md) | [English](README.md)
 
-## Funktionen
+An advanced dashboard that analyzes data from the Ore Private Server log file and displays real-time updated statistics and charts for Ore mining.
 
-- **Live-Dashboard**: Zeigt die aktuellen Daten wie Ore-Balance, Anzahl der Miner, Gesamtbelohnungen, erfolgreiche Einsendungen, Durchschnitts-, Min-, und Max-Schwierigkeit sowie Fehlerraten an.
-- **Datenvisualisierung**: Diagramm der Verdienstrate über die Zeit mithilfe von `Chart.js`.
-- **Dynamische Datenaktualisierung**: Die angezeigten Daten und das Diagramm werden alle 30 Sekunden automatisch aktualisiert.
-- **Logdatei-Upload**: Ermöglicht das Hochladen einer Logdatei, die dann analysiert und im Dashboard angezeigt wird.
+## Features
 
-## Voraussetzungen
+- **Live Dashboard**: Displays current data such as Ore balance, number of miners, total rewards, successful submissions, average, minimum, and maximum difficulty, as well as error rates.
+- **Data Visualization**: Shows earnings rate over time using `Chart.js`.
+- **Dynamic Data Updates**: Automatically updates data and charts every 30 seconds.
+- **Log File Upload**: Allows the upload of a log file, which is then analyzed and displayed on the dashboard.
 
-Um das Dashboard auszuführen, müssen folgende Software und Bibliotheken installiert sein:
+## Requirements
 
-- **Rust**: Rust ist erforderlich, um das Backend zu kompilieren und zu betreiben.
-- **Node.js** (optional): Für Frontend-Bibliotheken, wenn du sie manuell installieren möchtest.
-- **Chart.js**: Für die grafische Darstellung der Verdienstrate.
-- **Bootstrap**: Für das Styling und Layout der HTML-Komponenten.
-- **Tera**: Für das Rendern von HTML-Templates im Backend.
-- **Actix Web**: Das Web-Framework, das den Server bereitstellt.
+To run the dashboard, the following software and libraries are needed:
+
+- **Rust**: Required to compile and run the backend.
+- **Node.js** (optional): For frontend libraries, if you choose to install them manually.
+- **Chart.js**: For visualizing the earnings rate.
+- **Bootstrap**: For styling and layout of HTML components.
+- **Tera**: For rendering HTML templates in the backend.
+- **Actix Web**: The web framework that serves the application.
 
 ## Installation
 
-1. **Rust und Cargo installieren** (falls nicht bereits installiert):
-   - Folge den [Anweisungen zur Installation von Rust](https://www.rust-lang.org/tools/install).
+### 1. Install Rust and Cargo
 
-2. **Repository klonen**:
+Follow the [Rust installation instructions](https://www.rust-lang.org/tools/install) if Rust is not already installed.
 
-   ```bash
-   git clone https://github.com/Mistergrow/Ore-Server-Dashboard
-   cd Ore-Server-Dashboard
-   cargo run
+### 2. Clone the repository
 
-   Im Browser localhost:8080, dann kompletten Pfad zur Logdatei ([LAUFWERKSBUCHSTABE]:\ore-private-srv\target\release\logs\ore-ppl-srv.log.2024-09-18)eingeben und hochladen. Das Programm analysiert auch alte logfiles.
+```bash
+git clone https://github.com/Mistergrow/Ore-Server-Dashboard
+cd Ore-Server-Dashboard
+cargo run
