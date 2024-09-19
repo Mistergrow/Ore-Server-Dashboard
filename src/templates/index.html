@@ -13,7 +13,7 @@
 {% endblock head %}
 
 {% block content %}
-<h1 class="mt-5">Erweitertes Dashboard</h1>
+<h1 class="mt-5">Ore Server Dashboard</h1>
 
 <!-- Formular zur Auswahl der Logdatei -->
 <form class="form-inline mt-3" method="post" action="/upload">
@@ -26,7 +26,7 @@
 
 {% if data %}
 <!-- Dashboard-Anzeige -->
-<h2 class="mt-5">Dashboard</h2>
+<h2 class="mt-5">Übersicht</h2>
 <div class="row mt-3">
     <div class="col-md-3">
         <div class="card text-white bg-primary mb-3">
@@ -80,7 +80,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-white bg-info mb-3">
+        <div class="card text-light bg-secondary mb-3">
             <div class="card-header">Min Difficulty</div>
             <div class="card-body">
                 <h5 class="card-title" id="min_difficulty">{{ data.min_difficulty }}</h5>
@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-white bg-info mb-3">
+        <div class="card text-white bg-success mb-3">
             <div class="card-header">Max Difficulty</div>
             <div class="card-body">
                 <h5 class="card-title" id="max_difficulty">{{ data.max_difficulty }}</h5>
@@ -98,7 +98,7 @@
 </div>
 
 <!-- Diagramm für Verdienstrate -->
-<h2 class="mt-5">Verdienstrate über die Zeit</h2>
+<h2 class="mt-5">Verdienst über die Zeit</h2>
 <canvas id="rewardsChart" width="800" height="400"></canvas>
 
 <!-- Top 5 Miner -->
@@ -139,7 +139,7 @@
     </div>
     <div class="col-md-3">
         <div class="card text-white bg-danger mb-3">
-            <div class="card-header">Fehlgeschlagene Einsendungen</div>
+            <div class="card-header">Nicht übermittelt</div>
             <div class="card-body">
                 <h5 class="card-title" id="failed_submissions">{{ data.failed_submissions }}</h5>
             </div>
@@ -166,7 +166,7 @@
 				document.querySelector('#ore_balance').innerText = data.ore_balance || '0';
 				document.querySelector('#miner_count').innerText = data.miner_count || '0';
 				document.querySelector('#difficulty').innerText = data.difficulty || '0';
-				document.querySelector('#total_rewards').innerText = data.total_rewards || '0';
+				document.querySelector('#total_rewards').innerText = (data.total_rewards ? data.total_rewards.toFixed(14) : '0');
 				document.querySelector('#successful_submissions').innerText = data.successful_submissions || '0';
 				document.querySelector('#avg_difficulty').innerText = data.avg_difficulty?.toFixed(2) || '0.00';
 				document.querySelector('#min_difficulty').innerText = data.min_difficulty || '0';
@@ -248,13 +248,6 @@ function updateChart(chartData) {
     }
     createChart(chartData);  // Neues Diagramm erstellen
 }
-
-    function updateChart(chartData) {
-        if (rewardsChart) {
-            rewardsChart.destroy();  // Altes Diagramm zerstören
-        }
-        createChart(chartData);  // Neues Diagramm erstellen
-    }
 
     // Diagramm nur nach Erhalt der Daten erstellen
     fetch('/update')
