@@ -94,7 +94,7 @@ fn parse_logs(log_content: &str) -> LogData {
 
     let re_ore_balance = Regex::new(r"New balance: (?P<balance>\d+\.\d+)").unwrap();
     let re_rewards = Regex::new(r"Earned: (?P<rewards>\d+\.\d+) ORE").unwrap();
-    let re_difficulty = Regex::new(r"with  diff (?P<diff>\d+) ").unwrap();
+    let re_difficulty = Regex::new(r"with diff (?P<diff>\d+) ").unwrap();
     let re_pubkeys = Regex::new(r"(?P<pubkey>[A-Za-z0-9]{6}\.\.\.[A-Za-z0-9]{4}) found diff: \d+").unwrap();
     let re_success = Regex::new(r"Success!!").unwrap();
     let re_error = Regex::new(r"\x1b\[\d+m ERROR\x1b\[0m").unwrap();
