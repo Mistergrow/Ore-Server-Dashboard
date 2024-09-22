@@ -34,3 +34,5 @@ Follow the [Rust installation instructions](https://www.rust-lang.org/tools/inst
 git clone https://github.com/Mistergrow/Ore-Server-Dashboard
 cd Ore-Server-Dashboard
 cargo run
+don´t close the app, open browser and enter 127.0.7.1:8080
+on top of the page enter path to your lofile from srv (target/release/log/) press load
